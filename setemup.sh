@@ -50,9 +50,6 @@ user_home=$(getent passwd "$username" | awk -F ':' '{print $6}')
 
 echo "Home directory: $user_home"
 
-mkdir $user_home/setemup
-cd $user_home/setemup
-
 # apt update
 echo -e "${Cyan} #######################  Updating apt  ########################${White}"
 echo -e '\n'
