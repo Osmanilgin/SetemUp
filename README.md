@@ -7,6 +7,7 @@ Just run the script it will check first basic commands like sudo, nano, wget and
 # Tools 
  First will check and install GO, Git and Python3
 
+|              |              |              |
 |--------------|--------------|--------------|
 | Assetfinder  | amass        | anew         |
 | Dalfox       | Ffuf         | fff          |
@@ -14,5 +15,4 @@ Just run the script it will check first basic commands like sudo, nano, wget and
 | gf           | gf-patterns  | gospider     |
 | httpx        | Haktrails    | meg          |
 | nmap         | Subfinder    | qsreplace    |
-| waybackurls  |              |              |
-|--------------|--------------|--------------|
+| waybackurls  | 
