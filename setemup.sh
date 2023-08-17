@@ -304,7 +304,7 @@ then
     echo -e "${Cyan}--------gf----------${White}"
     go install github.com/tomnomnom/gf@latest
     git clone https://github.com/tomnomnom/gf.git 
-    git clone https://github.com/1ndianl33t/Gf-Patterns
+    git clone https://github.com/Osmanilgin/Gf-Patterns
     curl -s https://raw.githubusercontent.com/tomnomnom/gf/master/gf-completion.zsh >> $user_home/.zshrc
     curl -s https://raw.githubusercontent.com/tomnomnom/gf/master/gf-completion.bash >> $user_home/.bashrc
 
