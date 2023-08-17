@@ -29,9 +29,29 @@ ${LYellow}
 
 
 "
+# Check if the script is run with sudo
+if [[ -n "$SUDO_USER" ]]; then
+  # The script was run with sudo, so $SUDO_USER holds the original username
+  username="$SUDO_USER"
+elif [[ -n "$USER" ]]; then
+  # The script was run without sudo, so $USER holds the current username
+  username="$USER"
+else
+  # Fallback: Use 'whoami' command to get the current user
+  username=$(whoami)
+fi
 
-mkdir ~/setemup &>:
-cd ~/setemup
+# Display the username
+echo "The script was started by: $username"
+echo "The config files will be saved on $username 's home directory"
+
+# Get the home directory of the specified username
+user_home=$(getent passwd "$username" | awk -F ':' '{print $6}')
+
+echo "Home directory: $user_home"
+
+mkdir $user_home/setemup
+cd $user_home/setemup
 
 # apt update
 echo -e "${Cyan} #######################  Updating apt  ########################${White}"
@@ -43,7 +63,7 @@ echo -e "${Magenta}-------------Checking basic commands... ------------------"
 if ! command -v sudo &> : || ! command -v curl &> : || ! command -v wget &> : || ! command -v ifconfig &> : 
 then
 	echo -e "${Cyan}######## Installing sudo wget net-tools netcat-traditional ########${White}"
-	apt install -y curl sudo wget net-tools netcat-traditional unzip &> :
+	apt install -y curl sudo wget net-tools netcat-traditional unzip nano software-properties-common &> :
 	echo -e "${Green}####### Tools installed successfully ######"
 else	
 echo -e "${White}------------- Base binaries seems like installed -------------"
@@ -57,11 +77,14 @@ then
     echo -e "${Cyan}--------  Go is not installed. Installing... ----------${White}"
     apt-get remove -y golang &> :
     rm -rf /usr/local/go &> :
-    apt-get install -y golang &>:
+    sudo add-apt-repository -y ppa:longsleep/golang-backports
+    sudo apt update
+    apt-get install -y golang-go &>:
     echo -e "${Green}--------  Go installed successfully! ----------${White}"
 else
 echo -e "${Green}Go is already installed, version: ${go_v:13}${END}"
 fi
+export GOPATH=$user_home/go/
 
 #Check python3 
 python_v=$(python3 --version) &> :
@@ -101,7 +124,7 @@ if ! command -v subfinder &> :
 then
     echo -e "${Cyan}--------Subfinder----------${White}"
     go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-    mv ~/go/bin/subfinder /usr/bin
+    mv $user_home/go/bin/subfinder /usr/bin
     if command -v subfinder &> :
     then
         echo -e "${Green}--------  Subfinder installed successfully! ----------${White}"
@@ -115,7 +138,7 @@ if ! command -v assetfinder &> :
 then
     echo -e "${Cyan}--------Assetfinder----------${White}"
     go install github.com/tomnomnom/assetfinder@latest
-    mv ~/go/bin/assetfinder /usr/bin
+    mv $user_home/go/bin/assetfinder /usr/bin
     if command -v assetfinder &> :
     then
         echo -e "${Green}--------  Assetfinder installed successfully!   ----------${White}"
@@ -129,7 +152,7 @@ if ! command -v fff &> :
 then
     echo -e "${Cyan}--------fff----------${White}"
     go install github.com/tomnomnom/fff@latest
-    mv ~/go/bin/fff /usr/bin
+    mv $user_home/go/bin/fff /usr/bin
     if command -v fff &> :
     then
         echo -e "${Green}--------  fff installed successfully! ----------${White}"
@@ -169,7 +192,7 @@ if ! command -v waybackurls &> :
 then
     echo -e "${Cyan}--------waybackurls----------${White}"
     go install github.com/tomnomnom/waybackurls@latest
-    mv ~/go/bin/waybackurls /usr/bin
+    mv $user_home/go/bin/waybackurls /usr/bin
     if command -v waybackurls &> :
     then
         echo -e "${Green}--------  waybackurls installed successfully!   ----------${White}"
@@ -183,7 +206,7 @@ if ! command -v amass &> :
 then
     echo -e "${Cyan}--------Amass----------${White}"
     go install  github.com/owasp-amass/amass/v4/...@master
-    mv ~/go/bin/amass /usr/bin
+    mv $user_home/go/bin/amass /usr/bin
     if command -v amass &> :
     then
         echo -e "${Green}--------  Amass installed successfully! ------${White}"
@@ -197,7 +220,7 @@ if ! command -v httpx &> :
 then
     echo -e "${Cyan}--------httpx----------${White}"
     go install github.com/projectdiscovery/httpx/cmd/httpx@latest
-    mv ~/go/bin/httpx /usr/bin
+    mv $user_home/go/bin/httpx /usr/bin
     if command -v httpx &> :
     then
         echo -e "${Green}--------  httpx installed successfully! ------${White}"
@@ -211,7 +234,7 @@ if ! command -v haktrails &> :
 then
     echo -e "${Cyan}--------hacktrails----------${White}"
     go install  github.com/hakluke/haktrails@latest
-    mv ~/go/bin/haktrails /usr/bin
+    mv $user_home/go/bin/haktrails /usr/bin
     if command -v haktrails &> :
     then
         echo -e "${Green}--------  haktrails installed successfully! ----------${White}"
@@ -225,7 +248,7 @@ if ! command -v meg &> :
 then
     echo -e "${Cyan}--------meg----------${White}"
     go install github.com/tomnomnom/meg@latest
-    mv ~/go/bin/meg /usr/bin
+    mv $user_home/go/bin/meg /usr/bin
     if command -v meg &> :
     then
         echo -e "${Green}--------  meg installed successfully! ----${White}"
@@ -239,7 +262,7 @@ if ! command -v gau &> :
 then
     echo -e "${Cyan}--------gau----------${White}"
     go install github.com/lc/gau/v2/cmd/gau@latest
-    mv ~/go/bin/gau /usr/bin
+    mv $user_home/go/bin/gau /usr/bin
     if command -v gau &> :
     then
         echo -e "${Green}--------  gau installed successfully! -------${White}"
@@ -253,7 +276,7 @@ if ! command -v unfurl &> :
 then
     echo -e "${Cyan}--------unfurl----------${White}"
     go install github.com/tomnomnom/unfurl@latest
-    mv ~/go/bin/unfurl /usr/bin
+    mv $user_home/go/bin/unfurl /usr/bin
     if command -v unfurl &> :
     then
         echo -e "${Green}--------  unfurl installed successfully! ----${White}"
@@ -276,25 +299,19 @@ else
 fi
 
 #gf
-user=$(id -un)
-homepath=/home/$user 
 if ! command -v gf &> :
 then
     echo -e "${Cyan}--------gf----------${White}"
     go install github.com/tomnomnom/gf@latest
     git clone https://github.com/tomnomnom/gf.git 
     git clone https://github.com/1ndianl33t/Gf-Patterns
-    curl -s https://raw.githubusercontent.com/tomnomnom/gf/master/gf-completion.zsh >> /root/.zshrc
-    curl -s https://raw.githubusercontent.com/tomnomnom/gf/master/gf-completion.bash >> /root/.bashrc
-    curl -s https://raw.githubusercontent.com/tomnomnom/gf/master/gf-completion.zsh >> $homepath/.zshrc
-    curl -s https://raw.githubusercontent.com/tomnomnom/gf/master/gf-completion.bash >> $homepath/.bashrc
-    mkdir /home/$usrhome/.gf
-    mkdir /root/.gf
-    cp Gf-Patterns/*.json $homepath/.gf
-    cp gf/examples/* $homepath/.gf
-    cp Gf-Patterns/*.json /root/.gf
-    cp gf/examples/* /root/.gf
-    mv ~/go/bin/gf /usr/bin
+    curl -s https://raw.githubusercontent.com/tomnomnom/gf/master/gf-completion.zsh >> $user_home/.zshrc
+    curl -s https://raw.githubusercontent.com/tomnomnom/gf/master/gf-completion.bash >> $user_home/.bashrc
+
+    mkdir $user_home/.gf
+    cp Gf-Patterns/*.json $user_home/.gf
+    cp gf/examples/* $user_home/.gf
+    mv $user_home/go/bin/gf /usr/bin
     if command -v gf &> :
     then
     	rm -rf gf Gf-Patterns
@@ -309,7 +326,7 @@ if ! command -v gospider &> :
 then
     echo -e "${Cyan}--------gospider----------${White}"
     go install github.com/jaeles-project/gospider@latest
-    mv ~/go/bin/gospider /usr/bin
+    mv $user_home/go/bin/gospider /usr/bin
     if command -v gospider &> :
     then
         echo -e "${Green}--------  gospider installed successfully! ----${White}"
@@ -323,7 +340,7 @@ if ! command -v dalfox &> :
 then
     echo -e "${Cyan}--------dalfox----------${White}"
     go install github.com/hahwul/dalfox/v2@latest
-    mv ~/go/bin/dalfox /usr/bin
+    mv $user_home/go/bin/dalfox /usr/bin
     if command -v dalfox &> :
     then
         echo -e "${Green}--------  dalfox installed successfully! ----${White}"
@@ -337,7 +354,7 @@ if ! command -v qsreplace &> :
 then
     echo -e "${Cyan}--------qsreplace----------${White}"
     go install github.com/tomnomnom/qsreplace@latest
-    mv ~/go/bin/qsreplace /usr/bin
+    mv $user_home/go/bin/qsreplace /usr/bin
     if command -v qsreplace &> :
     then
         echo -e "${Green}--------  qsreplace installed successfully! ----${White}"
@@ -367,7 +384,7 @@ if ! command -v anew &> :
 then
     echo -e "${Cyan}--------anew----------${White}"
     go install -v github.com/tomnomnom/anew@latest
-    mv ~/go/bin/anew /usr/bin/
+    mv $user_home/go/bin/anew /usr/bin/
     if command -v anew &> :
     then
         echo -e "${Green}--------  anew installed successfully! ----${White}"
@@ -381,11 +398,28 @@ if ! command -v nuclei &> :
 then
     echo -e "${Cyan}--------nuclei----------${White}"
     go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
-    mv ~/go/bin/nuclei /usr/bin
+    mv $user_home/go/bin/nuclei /usr/bin
     if command -v nuclei &> :
     then
         echo -e "${Green}--------  nuclei installed successfully! ----${White}"
     fi
 else
     echo -e "${Green}nuclei is already installed.${White}"
+fi
+
+#findomain
+if ! command -v findomain &> :
+then
+    echo -e "${Cyan}--------findomain----------${White}"
+    curl -LO https://github.com/findomain/findomain/releases/latest/download/findomain-linux-i386.zip
+    unzip findomain-linux-i386.zip
+    chmod +x findomain
+    mv findomain /usr/bin/findomain
+    rm findomain-linux-i386.zip
+    if command -v findomain &> :
+    then
+        echo -e "${Green}--------  findomain installed successfully! ----${White}"
+    fi
+else
+    echo -e "${Green}findomain is already installed.${White}"
 fi
