@@ -479,7 +479,20 @@ else
     echo -e "${Green}katana is already installed.${White}"
 fi
 
-
+#urlcurl
+if ! command -v urlcurl &>:
+then
+    echo -e "${Cyan}--------urlcurl----------${White}"
+    wget https://raw.githubusercontent.com/Osmanilgin/urlcurl/master/urlcurl.sh
+    chmod +x urlcurl.sh
+    mv urlcurl.sh /usr/bin/urlcurl
+    if command -v urlcurl &>:
+    then
+        echo -e "${Green}--------  urlcurl installed successfully! ----${White}"
+    fi
+else
+    echo -e "${Green}urlcurl is already installed.${White}"
+fi
 
 
 
