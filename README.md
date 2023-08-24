@@ -10,9 +10,10 @@ Just run the script it will check first basic commands like sudo, nano, wget and
 |              |              |              |
 |--------------|--------------|--------------|
 | Assetfinder  | amass        | anew         |
-| Dalfox       | Ffuf         | fff          |
+| Dalfox       | Ffuf         | urlcurl      |
 | Feroxbuster  | findomain    | Gau          |
 | gf           | gf-patterns  | gospider     |
 | httpx        | Haktrails    | meg          |
 | nmap         | Subfinder    | qsreplace    |
-| waybackurls  | 
+| waybackurls  | Katana       | js-beautify  |
+| uro          | sqlmap       | fff
