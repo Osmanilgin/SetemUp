@@ -57,10 +57,10 @@ apt-get update
 
 #Very Basic setup
 echo -e "${Magenta}-------------Checking basic commands... ------------------"
-if ! command -v sudo &> : || ! command -v curl &> : || ! command -v wget &> : || ! command -v ifconfig &> : 
+if ! command -v sudo &>: || ! command -v curl &>: || ! command -v wget &>: || ! command -v ifconfig &>: 
 then
 	echo -e "${Cyan}######## Installing sudo wget net-tools netcat-traditional ########${White}"
-	apt install -y curl sudo wget net-tools netcat-traditional unzip nano software-properties-common &> :
+	apt install -y curl sudo wget net-tools netcat-traditional unzip nano software-properties-common tor proxychains &>:
 	echo -e "${Green}####### Tools installed successfully ######"
 else	
 echo -e "${White}------------- Base binaries seems like installed -------------"
@@ -68,12 +68,12 @@ echo -e "\n"
 fi
 
 #Check Go 
-go_v=$(go version) &> :
-if ! command -v go &> :
+go_v=$(go version) &>:
+if ! command -v go &>:
 then
     echo -e "${Cyan}--------  Go is not installed. Installing... ----------${White}"
-    apt-get remove -y golang &> :
-    rm -rf /usr/local/go &> :
+    apt-get remove -y golang &>:
+    rm -rf /usr/local/go &>:
     sudo add-apt-repository -y ppa:longsleep/golang-backports
     sudo apt update
     apt-get install -y golang-go &>:
@@ -84,12 +84,17 @@ fi
 export GOPATH=$user_home/go/
 
 #Check python3 
-python_v=$(python3 --version) &> :
-if ! command -v python &> :
+python_v=$(python3 --version) &>:
+if ! command -v python &>:
 then
     echo -e "${Cyan}--------Python3 is not installed. Installing.... ----------${White}"
-    apt install python3 -y &> :
-    if command -v python3 &> :
+    apt install python3 -y &>:
+    apt install -y python3-pip
+    if command -v python3 &>:
+    echo "alias python='python3'" >> $user_home/.bashrc &>:
+    source $user_home/.bashrc
+    echo "alias python='python3'" >> $user_home/.zshrc &>:
+    source $user_home/.zshrc
     then
         echo -e "${Green}--------  Python3 installed successfully! --------${White}"
     fi
@@ -98,12 +103,12 @@ else
 fi
 
 #Check git 
-git_v=$(git version) &> :
-if ! command -v git &> :
+git_v=$(git version) &>:
+if ! command -v git &>:
 then
     echo -e "${Cyan}--------Git is not installed. Installing.... ----------${White}"
-    apt-get install git -y &> :
-    if command -v git &> :
+    apt-get install git -y &>:
+    if command -v git &>:
     then
         echo -e "${Green}----------  Git installed successfully! -------------${White}"
     fi
@@ -117,12 +122,12 @@ echo -e "${Yellow}####################### Installing Tools #####################
 echo -e '-----------------------'
 
 #Subfinder
-if ! command -v subfinder &> :
+if ! command -v subfinder &>:
 then
     echo -e "${Cyan}--------Subfinder----------${White}"
     go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
     mv $user_home/go/bin/subfinder /usr/bin
-    if command -v subfinder &> :
+    if command -v subfinder &>:
     then
         echo -e "${Green}--------  Subfinder installed successfully! ----------${White}"
     fi
@@ -131,12 +136,12 @@ else
 fi
 
 #Assetfinder
-if ! command -v assetfinder &> :
+if ! command -v assetfinder &>:
 then
     echo -e "${Cyan}--------Assetfinder----------${White}"
     go install github.com/tomnomnom/assetfinder@latest
     mv $user_home/go/bin/assetfinder /usr/bin
-    if command -v assetfinder &> :
+    if command -v assetfinder &>:
     then
         echo -e "${Green}--------  Assetfinder installed successfully!   ----------${White}"
     fi
@@ -145,12 +150,12 @@ else
 fi
 
 #fff
-if ! command -v fff &> :
+if ! command -v fff &>:
 then
     echo -e "${Cyan}--------fff----------${White}"
     go install github.com/tomnomnom/fff@latest
     mv $user_home/go/bin/fff /usr/bin
-    if command -v fff &> :
+    if command -v fff &>:
     then
         echo -e "${Green}--------  fff installed successfully! ----------${White}"
     fi
@@ -159,11 +164,11 @@ else
 fi
 
 #fff
-if ! command -v ffuf &> :
+if ! command -v ffuf &>:
 then
     echo -e "${Cyan}--------Ffuf----------${White}"
     apt install -y ffuf
-    if command -v ffuf &> :
+    if command -v ffuf &>:
     then
         echo -e "${Green}--------  Ffuf installed successfully! -----${White}"
     fi
@@ -172,11 +177,11 @@ else
 fi
 
 #Feroxbuster
-if ! command -v feroxbuster &> :
+if ! command -v feroxbuster &>:
 then
     echo -e "${Cyan}--------Feroxbuster----------${White}"
     curl -sL https://raw.githubusercontent.com/epi052/feroxbuster/main/install-nix.sh | bash -s /usr/bin/
-    if command -v feroxbuster &> :
+    if command -v feroxbuster &>:
     then
         echo -e "${Green}--------  Feroxbuster installed successfully! ----------${White}"
     fi
@@ -185,12 +190,12 @@ else
 fi
 
 #waybackurls
-if ! command -v waybackurls &> :
+if ! command -v waybackurls &>:
 then
     echo -e "${Cyan}--------waybackurls----------${White}"
     go install github.com/tomnomnom/waybackurls@latest
     mv $user_home/go/bin/waybackurls /usr/bin
-    if command -v waybackurls &> :
+    if command -v waybackurls &>:
     then
         echo -e "${Green}--------  waybackurls installed successfully!   ----------${White}"
     fi
@@ -199,12 +204,12 @@ else
 fi
 
 #Amass
-if ! command -v amass &> :
+if ! command -v amass &>:
 then
     echo -e "${Cyan}--------Amass----------${White}"
     go install  github.com/owasp-amass/amass/v4/...@master
     mv $user_home/go/bin/amass /usr/bin
-    if command -v amass &> :
+    if command -v amass &>:
     then
         echo -e "${Green}--------  Amass installed successfully! ------${White}"
     fi
@@ -213,12 +218,12 @@ else
 fi
 
 #httpx
-if ! command -v httpx &> :
+if ! command -v httpx &>:
 then
     echo -e "${Cyan}--------httpx----------${White}"
     go install github.com/projectdiscovery/httpx/cmd/httpx@latest
     mv $user_home/go/bin/httpx /usr/bin
-    if command -v httpx &> :
+    if command -v httpx &>:
     then
         echo -e "${Green}--------  httpx installed successfully! ------${White}"
     fi
@@ -227,12 +232,12 @@ else
 fi
 
 #Haktrails
-if ! command -v haktrails &> :
+if ! command -v haktrails &>:
 then
     echo -e "${Cyan}--------hacktrails----------${White}"
     go install  github.com/hakluke/haktrails@latest
     mv $user_home/go/bin/haktrails /usr/bin
-    if command -v haktrails &> :
+    if command -v haktrails &>:
     then
         echo -e "${Green}--------  haktrails installed successfully! ----------${White}"
     fi
@@ -241,12 +246,12 @@ else
 fi
 
 #meg
-if ! command -v meg &> :
+if ! command -v meg &>:
 then
     echo -e "${Cyan}--------meg----------${White}"
     go install github.com/tomnomnom/meg@latest
     mv $user_home/go/bin/meg /usr/bin
-    if command -v meg &> :
+    if command -v meg &>:
     then
         echo -e "${Green}--------  meg installed successfully! ----${White}"
     fi
@@ -255,12 +260,12 @@ else
 fi
 
 #gau
-if ! command -v gau &> :
+if ! command -v gau &>:
 then
     echo -e "${Cyan}--------gau----------${White}"
     go install github.com/lc/gau/v2/cmd/gau@latest
     mv $user_home/go/bin/gau /usr/bin
-    if command -v gau &> :
+    if command -v gau &>:
     then
         echo -e "${Green}--------  gau installed successfully! -------${White}"
     fi
@@ -269,12 +274,12 @@ else
 fi
 
 #unfurl
-if ! command -v unfurl &> :
+if ! command -v unfurl &>:
 then
     echo -e "${Cyan}--------unfurl----------${White}"
     go install github.com/tomnomnom/unfurl@latest
     mv $user_home/go/bin/unfurl /usr/bin
-    if command -v unfurl &> :
+    if command -v unfurl &>:
     then
         echo -e "${Green}--------  unfurl installed successfully! ----${White}"
     fi
@@ -283,11 +288,11 @@ else
 fi
 
 #nmap
-if ! command -v nmap &> :
+if ! command -v nmap &>:
 then
     echo -e "${Cyan}--------nmap----------${White}"
     apt install -y nmap
-    if command -v nmap &> :
+    if command -v nmap &>:
     then
         echo -e "${Green}--------  nmap installed successfully! ----${White}"
     fi
@@ -296,7 +301,7 @@ else
 fi
 
 #gf
-if ! command -v gf &> :
+if ! command -v gf &>:
 then
     echo -e "${Cyan}--------gf----------${White}"
     go install github.com/tomnomnom/gf@latest
@@ -309,7 +314,7 @@ then
     cp Gf-Patterns/*.json $user_home/.gf
     cp gf/examples/* $user_home/.gf
     mv $user_home/go/bin/gf /usr/bin
-    if command -v gf &> :
+    if command -v gf &>:
     then
     	rm -rf gf Gf-Patterns
         echo -e "${Green}--------  gf installed successfully! ----${White}"
@@ -319,12 +324,12 @@ else
 fi
 
 #gospider
-if ! command -v gospider &> :
+if ! command -v gospider &>:
 then
     echo -e "${Cyan}--------gospider----------${White}"
     go install github.com/jaeles-project/gospider@latest
     mv $user_home/go/bin/gospider /usr/bin
-    if command -v gospider &> :
+    if command -v gospider &>:
     then
         echo -e "${Green}--------  gospider installed successfully! ----${White}"
     fi
@@ -333,12 +338,12 @@ else
 fi
 
 #dalfox
-if ! command -v dalfox &> :
+if ! command -v dalfox &>:
 then
     echo -e "${Cyan}--------dalfox----------${White}"
     go install github.com/hahwul/dalfox/v2@latest
     mv $user_home/go/bin/dalfox /usr/bin
-    if command -v dalfox &> :
+    if command -v dalfox &>:
     then
         echo -e "${Green}--------  dalfox installed successfully! ----${White}"
     fi
@@ -347,12 +352,12 @@ else
 fi
 
 #qsreplace
-if ! command -v qsreplace &> :
+if ! command -v qsreplace &>:
 then
     echo -e "${Cyan}--------qsreplace----------${White}"
     go install github.com/tomnomnom/qsreplace@latest
     mv $user_home/go/bin/qsreplace /usr/bin
-    if command -v qsreplace &> :
+    if command -v qsreplace &>:
     then
         echo -e "${Green}--------  qsreplace installed successfully! ----${White}"
     fi
@@ -361,13 +366,13 @@ else
 fi
 
 #wafw00f
-if ! command -v wafw00f &> :
+if ! command -v wafw00f &>:
 then
     echo -e "${Cyan}--------wafw00f----------${White}"
     git clone https://github.com/EnableSecurity/wafw00f.git
-    python wafw00f/setup.py install
+    python3 wafw00f/setup.py install
     cp wafw00f/wafw00f/bin/wafw00f /usr/bin/wafw00f
-    if command -v wafw00f &> :
+    if command -v wafw00f &>:
     then
         echo -e "${Green}--------  wafw00f installed successfully! ----${White}"
         rm -rf wafw00f
@@ -377,12 +382,12 @@ else
 fi
 
 #anew
-if ! command -v anew &> :
+if ! command -v anew &>:
 then
     echo -e "${Cyan}--------anew----------${White}"
     go install -v github.com/tomnomnom/anew@latest
     mv $user_home/go/bin/anew /usr/bin/
-    if command -v anew &> :
+    if command -v anew &>:
     then
         echo -e "${Green}--------  anew installed successfully! ----${White}"
     fi
@@ -391,12 +396,12 @@ else
 fi
 
 #nuclei
-if ! command -v nuclei &> :
+if ! command -v nuclei &>:
 then
     echo -e "${Cyan}--------nuclei----------${White}"
     go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
     mv $user_home/go/bin/nuclei /usr/bin
-    if command -v nuclei &> :
+    if command -v nuclei &>:
     then
         echo -e "${Green}--------  nuclei installed successfully! ----${White}"
     fi
@@ -405,7 +410,7 @@ else
 fi
 
 #findomain
-if ! command -v findomain &> :
+if ! command -v findomain &>:
 then
     echo -e "${Cyan}--------findomain----------${White}"
     curl -LO https://github.com/findomain/findomain/releases/latest/download/findomain-linux-i386.zip
@@ -413,10 +418,80 @@ then
     chmod +x findomain
     mv findomain /usr/bin/findomain
     rm findomain-linux-i386.zip
-    if command -v findomain &> :
+    if command -v findomain &>:
     then
         echo -e "${Green}--------  findomain installed successfully! ----${White}"
     fi
 else
     echo -e "${Green}findomain is already installed.${White}"
 fi
+
+#sqlmap
+if ! command -v sqlmap &>:
+then
+    echo -e "${Cyan}--------sqlmap----------${White}"
+    apt install -y sqlmap
+    if command -v sqlmap &>:
+    then
+        echo -e "${Green}--------  sqlmap installed successfully! ----${White}"
+    fi
+else
+    echo -e "${Green}sqlmap is already installed.${White}"
+fi
+
+#uro
+if ! command -v uro &>:
+then
+    echo -e "${Cyan}--------uro----------${White}"
+    pip3 install uro
+    if command -v uro &>:
+    then
+        echo -e "${Green}--------  uro installed successfully! ----${White}"
+    fi
+else
+    echo -e "${Green}uro is already installed.${White}"
+fi
+
+#js-beautify 
+if ! command -v js-beautify &>:
+then
+    echo -e "${Cyan}--------jsbeautifier----------${White}"
+    pip3 install jsbeautifier
+    if command -v js-beautify &>:
+    then
+        echo -e "${Green}--------  js-beautify installed successfully! ----${White}"
+    fi
+else
+    echo -e "${Green}js-beautify is already installed.${White}"
+fi
+
+#katana
+if ! command -v katana &>:
+then
+    echo -e "${Cyan}--------katana----------${White}"
+    go install github.com/projectdiscovery/katana/cmd/katana@latest
+    mv $user_home/go/bin/katana /usr/bin
+    if command -v katana &>:
+    then
+        echo -e "${Green}--------  katana installed successfully! ----${White}"
+    fi
+else
+    echo -e "${Green}katana is already installed.${White}"
+fi
+
+
+
+
+
+#wordlists
+ echo -e "${Cyan}--------Creating wordlists file----------${White}"
+ mkdir wordlists
+ cd wordlists
+wget https://raw.githubusercontent.com/ayoubfathi/leaky-paths/main/leaky-paths.txt
+git clone https://github.com/danielmiessler/SecLists.git
+wget https://raw.githubusercontent.com/emadshanab/LFI-Payload-List/master/LFI%20payloads.txt
+cd ..
+rm -rf go :
+echo -e "${Cyan}--------All Done!----------${White}"
+
+echo -e "${Yellow}-------- Happy Hacks :D ----------${White}"
