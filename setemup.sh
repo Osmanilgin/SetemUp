@@ -306,7 +306,7 @@ then
     echo -e "${Cyan}--------gf----------${White}"
     go install github.com/tomnomnom/gf@latest
     git clone https://github.com/tomnomnom/gf.git 
-    git clone https://github.com/Osmanilgin/Gf-Patterns
+    git clone https://github.com/Xploisec/Gf-Patterns
     curl -s https://raw.githubusercontent.com/tomnomnom/gf/master/gf-completion.zsh >> $user_home/.zshrc
     curl -s https://raw.githubusercontent.com/tomnomnom/gf/master/gf-completion.bash >> $user_home/.bashrc
 
@@ -483,7 +483,7 @@ fi
 if ! command -v urlcurl &>:
 then
     echo -e "${Cyan}--------urlcurl----------${White}"
-    wget https://raw.githubusercontent.com/Osmanilgin/urlcurl/master/urlcurl.sh
+    wget https://raw.githubusercontent.com/Xploisec/urlcurl/master/urlcurl.sh
     chmod +x urlcurl.sh
     mv urlcurl.sh /usr/bin/urlcurl
     if command -v urlcurl &>:
