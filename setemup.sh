@@ -57,11 +57,11 @@ apt-get update
 
 #Very Basic setup
 echo -e "${Magenta}-------------Checking basic commands... ------------------"
-if ! command -v sudo &>: || ! command -v curl &>: || ! command -v wget &>: || ! command -v ifconfig &>: 
+if ! command -v sudo &>: || ! command -v curl &>: || ! command -v wget &>: || ! command -v ifconfig &>: || ! command -v tor &>: || ! command -v proxychains &>: 
 then
-	echo -e "${Cyan}######## Installing sudo wget net-tools netcat-traditional ########${White}"
+	echo -e "${Cyan}######## Installing sudo wget net-tools netcat-traditional unzip nano software-properties-common tor proxychains ########${White}"
 	apt install -y curl sudo wget net-tools netcat-traditional unzip nano software-properties-common tor proxychains &>:
-	echo -e "${Green}####### Tools installed successfully ######"
+	echo -e "${Green}####### Binaries installed successfully ######"
 else	
 echo -e "${White}------------- Base binaries seems like installed -------------"
 echo -e "\n"
