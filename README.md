@@ -17,4 +17,5 @@ Run the script it will check basic commands like sudo, nano, and wget if not exi
 | nmap         | Subfinder    | qsreplace    |
 | waybackurls  | Katana       | js-beautify  |
 | uro          | sqlmap       | fff          | 
-| Katana
+| Katana       | commix       | whatweb      |
+| webanalyze
