@@ -494,7 +494,48 @@ else
     echo -e "${Green}urlcurl is already installed.${White}"
 fi
 
+#whatweb
+if ! command -v whatweb &>:
+then
+    echo -e "${Cyan}--------whatweb----------${White}"
+    apt install -y whatweb
+    if command -v whatweb &>:
+    then
+        echo -e "${Green}--------  whatweb installed successfully! ----${White}"
+    fi
+else
+    echo -e "${Green}whatweb is already installed.${White}"
+fi
 
+#commix
+if ! command -v commix &>:
+then
+    echo -e "${Cyan}--------commix----------${White}"
+    git clone https://github.com/commixproject/commix.git commix
+    if command -v commix &>:
+    then
+        echo -e "${Green}--------  commix installed successfully! ----${White}"
+        mv commix /usr/bin/
+    fi
+else
+    echo -e "${Green}commix is already installed.${White}"
+fi
+
+#webanalyze
+if ! command -v webanalyze &>:
+then
+    echo -e "${Cyan}--------webanalyze----------${White}"
+    wget https://github.com/rverton/webanalyze/releases/download/v0.3.9/webanalyze_0.3.9_Linux_x86_64.tar.gz
+    tar -xzf webanalyze_0.3.9_Linux_x86_64.tar.gz
+    mv webanalyze /usr/bin/
+    if command -v webanalyze &>:
+    then
+        echo -e "${Green}--------  webanalyze installed successfully! ----${White}"
+        rm webanalyze_0.3.9_Linux_x86_64.tar.gz
+    fi
+else
+    echo -e "${Green}webanalyze is already installed.${White}"
+fi
 
 #wordlists
  echo -e "${Cyan}--------Creating wordlists file----------${White}"
